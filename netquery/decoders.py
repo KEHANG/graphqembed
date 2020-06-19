@@ -59,7 +59,7 @@ class BilinearEdgeDecoder(nn.Module):
                 rel = (r1, r2[1], r2[0])
                 self.mats[rel] = nn.Parameter(
                         torch.FloatTensor(dims[rel[0]], dims[rel[2]]))
-                init.xavier_uniform(self.mats[rel])
+                init.xavier_uniform_(self.mats[rel])
                 self.register_parameter("_".join(rel), self.mats[rel])
 
 
@@ -136,7 +136,7 @@ class BilinearMetapathDecoder(nn.Module):
             for r2 in relations[r1]:
                 rel = (r1, r2[1], r2[0])
                 self.mats[rel] = nn.Parameter(torch.FloatTensor(dims[rel[0]], dims[rel[2]]))
-                init.xavier_uniform(self.mats[rel])
+                init.xavier_uniform_(self.mats[rel])
                 self.register_parameter("_".join(rel), self.mats[rel])
 
     def forward(self, embeds1, embeds2, rels):
@@ -166,7 +166,7 @@ class DotBilinearMetapathDecoder(nn.Module):
             for r2 in relations[r1]:
                 rel = (r1, r2[1], r2[0])
                 self.mats[rel] = nn.Parameter(torch.FloatTensor(dims[rel[0]], dims[rel[2]]))
-                #init.xavier_uniform(self.mats[rel])
+                #init.xavier_uniform_(self.mats[rel])
                 init.normal(self.mats[rel], std=0.1)
                 self.register_parameter("_".join(rel), self.mats[rel])
 
@@ -252,7 +252,7 @@ class TensorIntersection(nn.Module):
         for mode in dims:
             dim = dims[mode]
             self.inter_tensors[mode] = nn.Parameter(torch.FloatTensor(dim, dim, dim))
-            init.xavier_uniform(self.inter_tensors[mode])
+            init.xavier_uniform_(self.inter_tensors[mode])
             self.register_parameter(mode+"_mat", self.inter_tensors[mode])
 
     def forward(self, embeds1, embeds2, mode):
@@ -279,10 +279,10 @@ class SetIntersection(nn.Module):
         self.agg_func = agg_func
         for mode in mode_dims:
             self.pre_mats[mode] = nn.Parameter(torch.FloatTensor(expand_dims[mode], mode_dims[mode]))
-            init.xavier_uniform(self.pre_mats[mode])
+            init.xavier_uniform_(self.pre_mats[mode])
             self.register_parameter(mode+"_premat", self.pre_mats[mode])
             self.post_mats[mode] = nn.Parameter(torch.FloatTensor(mode_dims[mode], expand_dims[mode]))
-            init.xavier_uniform(self.post_mats[mode])
+            init.xavier_uniform_(self.post_mats[mode])
             self.register_parameter(mode+"_postmat", self.post_mats[mode])
 
     def forward(self, embeds1, embeds2, mode, embeds3 = []):

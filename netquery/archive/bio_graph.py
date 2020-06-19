@@ -86,7 +86,7 @@ def load_small(num_genes=1000, feature_dim=10):
         for rel in relations[mode]:
             relation = ((mode, rel[1], rel[0]))
             filename = _get_data_file((mode, rel[0]))
-            print relation
+            print(relation)
             if filename is None:
                 filename = _get_data_file((rel[0], mode))
                 reverse = True
@@ -116,7 +116,7 @@ def load_small(num_genes=1000, feature_dim=10):
                         used_nodes[rel[0]].add(node2)
     node_maps = _make_node_maps(used_nodes)
     for mode, used_set in used_nodes.iteritems():
-        print mode, len(used_set)
+        print(mode, len(used_set))
     return relations, adj_lists, node_maps
 
 if __name__ == "__main__":
